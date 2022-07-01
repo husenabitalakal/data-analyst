@@ -90,5 +90,7 @@ create unique index empid_index on emp(emp_no);
 -- Q10. Create a view called emp_sal on the emp table by selecting the following fields in the order of highest salary to the lowest salary.
 
 create view emp_sal as 
-select EmployeeID, first,last,salary from emp
+select emp_no, first_name,last_name,salary from emp
 order by salary desc;
+
+SELECT * FROM emp_sal;

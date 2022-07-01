@@ -112,6 +112,34 @@ call get_customer_details_with_purchase_status(112);
 
 -- Q4. Replicate the functionality of 'on delete cascade' and 'on update cascade' using triggers on movies and rentals tables. Note: Both tables - movies and rentals - don't have primary or foreign keys. Use only triggers to implement the above.
 
+DELIMITER &&
+CREATE TRIGGER movie_update AFTER UPDATE on movies for each row 
+BEGIN
+UPDATE rentals SET movieid =new.id where movieid=old.id;
+END &&
+DELIMITER ;
+
+show TRIGGERS;
+
+UPDATE movies SET id=12 where title='Real Steel';
+
+DELIMITER &&
+create trigger delete_movie AFTER DELETE on movies for each row
+BEGIN
+DELETE from rentals WHERE movieid=old.id;
+END &&
+DELIMITER ;
+
+SELECT * from movies;
+SELECT * from rentals;
+
+show TRIGGERS;
+
+DELETE from movies WHERE title='Safe';
+
+SELECT * from movies;
+SELECT * from rentals;
+
 -- Q5. Select the first name of the employee who gets the third highest salary. [table: employee]
 select fname as 'First Name' from employee order by salary desc limit 1 offset 2;
 
